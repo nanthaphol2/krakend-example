@@ -1,0 +1,35 @@
+version: 3
+name: KrakenD - API Gateway
+port: 8000
+output_encoding: json
+endpoints:
+- endpoint: "/"
+  method: "GET"
+  backend:
+  - host:
+    - "http://httpbin.org"
+    url_pattern: "/ip"
+    
+- endpoint: "/user"
+  method: "GET"
+  backend:
+  - host:
+    - "https://65ea9722c9bf92ae3d3bbc48.mockapi.io"
+    url_pattern: "/api/v1/user"
+    encoding: "json"
+    is_collection: true
+
+- endpoint: "/posts/{id}"
+  method: "GET"
+  backend:
+  - host:
+    - "http://jsonplaceholder.typicode.com"
+    url_pattern: "/posts/{id}"
+    encoding: "json"
+  - host:
+    - "http://jsonplaceholder.typicode.com"
+    url_pattern: "/comments?postId={id}"
+    encoding: "json"
+    is_collection: true
+    mapping: 
+    - collection: "comments"

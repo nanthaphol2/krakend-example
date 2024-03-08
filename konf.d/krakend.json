@@ -1,0 +1,48 @@
+{
+    "version": 3,
+    "name": "KrakenD - API Gateway",
+    "port": 8000,
+    "endpoints": [
+        {
+            "endpoint": "/",
+            "method": "GET",
+            "backend": [{
+                "url_pattern": "/ip",
+                "host": [
+                    "http://httpbin.org/"
+                ]
+            }]
+        },
+        {
+            "endpoint": "/user",
+            "method": "GET",
+            "backend": [{
+                "url_pattern": "/api/v1/user",
+                "host": [
+                    "https://65ea9722c9bf92ae3d3bbc48.mockapi.io"
+                ],
+                "encoding": "json",
+                "is_collection": true
+            }]
+        },
+        {
+            "endpoint": "/posts/{id}",
+            "backend":[{
+              "host": ["http://jsonplaceholder.typicode.com"],
+              "url_pattern": "/posts/{id}",
+              "encoding": "json"
+            },
+            {
+               "host": ["http://jsonplaceholder.typicode.com"],
+               "url_pattern": "/comments?postId={id}",
+               "encoding": "json",
+               "is_collection": true,
+               "mapping": {"collection": "comments"}
+            }],
+            "extra_config": {},
+            "concurrent_calls": 1,
+            "output_encoding": "json",
+            "method": "GET"
+          }
+    ]
+}
